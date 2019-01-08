@@ -46,7 +46,7 @@ def names():
     # query states
     cur = mysql.connection.cursor()
     cur.execute('''SELECT DISTINCT addr_state 
-                FROM loans.loandata
+                FROM loandata
                 ORDER BY addr_state''')
     results = cur.fetchall()
 
@@ -72,7 +72,7 @@ def stateStats(state):
                 AVG(annual_inc) AS inc_avg,
                 AVG(int_rate) AS int_avg,
                 AVG(dti) AS dti_avg
-                FROM loans.loandata
+                FROM loandata
                 GROUP BY addr_state''')
     results = cur.fetchall()    
 
@@ -104,7 +104,7 @@ def loanStatus(state):
     cur.execute('''SELECT addr_state,
                 loan_status,
                 COUNT(loan_status) AS status_count
-                FROM loans.loandata
+                FROM loandata
                 GROUP BY addr_state, loan_status''')
     results = cur.fetchall() 
 
@@ -135,7 +135,7 @@ def loanGrades(state):
     cur.execute('''SELECT addr_state,
                 grade,
                 COUNT(grade) AS grade_count
-                FROM loans.loandata
+                FROM loandata
                 GROUP BY addr_state, grade''')
     results = cur.fetchall() 
 
@@ -166,7 +166,7 @@ def loanYears(state):
     cur.execute('''SELECT addr_state,
                 issue_y,
                 COUNT(issue_y) AS year_count
-                FROM loans.loandata
+                FROM loandata
                 GROUP BY addr_state, issue_y''')
     results = cur.fetchall() 
 
