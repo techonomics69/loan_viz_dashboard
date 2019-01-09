@@ -81,24 +81,59 @@ function buildCharts(state) {
 
   });
 
-  var url2 = `/years/${state}`
+  var url2 = `/home/${state}`
 
   // Build a Line Chart for the State Loans per year
   d3.json(url2).then(function(response2) {
     
-    var x_axis = response2.years;
-    var y_axis = response2.loan_counts;
+    var x_axis = response2.owner_status;
+    var y_axis = response2.owner_counts;
     
     var trace3 = {
+        x: x_axis,
+        y: y_axis,
+        type: 'bar',
+        marker: {
+          color: 'rgb(142,124,195)'
+        }
+      };
+
+    var data3 = [trace3];
+
+    var layout3 = {
+          title: "<b>Loan Home Ownership Status</b>",
+          xaxis: {
+            title: 'Status',
+            tickangle: -45
+          },
+          yaxis: {
+            title: 'Count'
+          },
+          bargap: 0.15
+        };
+
+    Plotly.newPlot("bar", data3, layout3);
+
+  });
+  
+  var url3 = `/years/${state}`
+
+  // Build a Line Chart for the State Loans per year
+  d3.json(url3).then(function(response3) {
+    
+    var x_axis = response3.years;
+    var y_axis = response3.loan_counts;
+    
+    var trace4 = {
         x: x_axis,
         y: y_axis,
         mode: 'lines',
         name: 'Lines'
       };
 
-    var data3 = [trace3];
+    var data4 = [trace4];
 
-    var layout3 = {
+    var layout4 = {
           title: "<b>Loans per Year</b>",
           xaxis: {
             title: 'Years',
@@ -109,7 +144,7 @@ function buildCharts(state) {
           }
         };
 
-    Plotly.newPlot("line", data3, layout3);
+    Plotly.newPlot("line", data4, layout4);
 
   });
 }

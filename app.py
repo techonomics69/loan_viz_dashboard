@@ -187,6 +187,37 @@ def loanYears(state):
 
     return jsonify(loan_years)
 
+# route for returning home owner status for a state
+@app.route("/home/<state>")
+def homeOwner(state):
+    """Return the home owner status for a given state"""
+
+    # query state loan years
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                home_ownership,
+                COUNT(home_ownership) AS owner_count
+                FROM loans.loandata
+                GROUP BY addr_state, home_ownership''')
+    results = cur.fetchall() 
+
+    # empty list to append data to
+    owner_status = []
+    num_owners = []
+
+    # loop to append relevant data
+    for result in results:
+        if result["addr_state"] == state:
+            owner_status.append(result["home_ownership"])
+            num_owners.append(result["owner_count"])
+
+    loan_owners = {
+        "owner_status": owner_status,
+        "owner_counts": num_owners
+    }
+
+    return jsonify(loan_owners)
+
 if __name__ == "__main__":
     app.run(debug=True)
 
