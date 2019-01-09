@@ -84,10 +84,10 @@ def stateStats(state):
         if result["addr_state"] == state:
             info = {
                 "Number of Loans": result["loan_count"],
-                "Avg Loan Amount": round(result["loan_avg"]),
-                "Avg HH Income": round(result["inc_avg"]),
-                "Avg Interest Rate": round(result["int_avg"]),
-                "Avg DTI": round(result["dti_avg"])
+                "Avg Loan Amount($)": round(result["loan_avg"]),
+                "Avg HH Income($)": round(result["inc_avg"]),
+                "Avg Interest Rate(%)": round(result["int_avg"],2),
+                "Avg DTI(%)": round(result["dti_avg"], 2)
             }
 
             stats.append(info)

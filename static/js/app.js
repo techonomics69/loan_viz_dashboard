@@ -101,7 +101,8 @@ function buildCharts(state) {
     var layout3 = {
           title: "<b>Loans per Year</b>",
           xaxis: {
-            title: 'Years'
+            title: 'Years',
+            nticks: 5
           },
           yaxis: {
             title: 'Loan Count'
