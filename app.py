@@ -197,7 +197,7 @@ def homeOwner(state):
     cur.execute('''SELECT addr_state,
                 home_ownership,
                 COUNT(home_ownership) AS owner_count
-                FROM loans.loandata
+                FROM loandata
                 GROUP BY addr_state, home_ownership''')
     results = cur.fetchall() 
 
