@@ -13,7 +13,7 @@
 <body>
 
     <nav class="container navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Loan Visualization</a>
+        <a class="navbar-brand" href="/">Loan Visualization</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,13 +42,43 @@
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
         <h1 style="color: rgb(70, 65, 66)">United States Loan Statistics Dashboard</h1>
-        <h3 style="color: rgb(70, 65, 66)">Select a category to explore</h3>
-        <p class="lead">
-          <a class="btn btn-primary btn-lg" href="../static/html/state.html" role="button">By State</a>
-          <a class="btn btn-primary btn-lg" href="../static/html/us.html" role="button">National</a>
-        </p>
+        <h3 style="color: rgb(70, 65, 66)">State Specific Lending Club&reg; Loan Data (2007-2011)</h3>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+          <div class="card-header">Loan Data</div>
+          <div class="card-body">
+            <h5>SELECT State:</h5>
+            <select id="selDataset" onchange="optionChanged(this.value)"></select>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">State Statistics</h3>
+                </div>
+                <div id="state-loandata" class="panel-body"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div id="pie1"></div>
+      </div>
+      <div class="col-md-5">
+        <div id="pie2"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="bar"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="line"></div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
 		<div class="container navbar navbar-expand-lg navbar-dark bg-primary text-white">
@@ -62,7 +92,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- <script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
+  <script src="../js/appState.js"></script>
 
 </body>
 

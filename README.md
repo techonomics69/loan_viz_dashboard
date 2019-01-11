@@ -17,7 +17,7 @@
 + [Bootstrap](https://getbootstrap.com/)
 + [Heroku](https://www.heroku.com/)
 ## Resources
-+ Lending Club Loan Data from [kaggle.com](https://www.kaggle.com/wendykan/lending-club-loan-data)
++ Lending Club&reg; Loan Data from [kaggle.com](https://www.kaggle.com/wendykan/lending-club-loan-data)
 ## Contributors
 + [Bryan Schwierzke](https://www.linkedin.com/in/bryan-schwierzke/)
 ## License

@@ -192,7 +192,7 @@ def loanYears(state):
 def homeOwner(state):
     """Return the home owner status for a given state"""
 
-    # query state loan years
+    # query state home ownership
     cur = mysql.connection.cursor()
     cur.execute('''SELECT addr_state,
                 home_ownership,
@@ -217,6 +217,195 @@ def homeOwner(state):
     }
 
     return jsonify(loan_owners)
+
+#################################################
+# US Routes
+#################################################
+
+# route for returning US statistics
+@app.route("/USstats")
+def usStats():
+    """Return the loan statistics for the US"""
+
+    # query US statistics
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                COUNT(loan_amnt) AS loan_count,
+                AVG(loan_amnt) AS loan_avg,
+                AVG(annual_inc) AS inc_avg,
+                AVG(int_rate) AS int_avg,
+                AVG(dti) AS dti_avg
+                FROM loandata
+                ''')
+    results = cur.fetchall()    
+
+    # empty list to append data to
+    usstats = []
+
+    # loop to append relevant data
+    for result in results:
+        info = {
+            "Number of Loans": result["loan_count"],
+            "Avg Loan Amount($)": round(result["loan_avg"]),
+            "Avg HH Income($)": round(result["inc_avg"]),
+            "Avg Interest Rate(%)": round(result["int_avg"],2),
+            "Avg DTI(%)": round(result["dti_avg"], 2)
+        }
+
+        usstats.append(info)
+
+    return jsonify(usstats)
+
+# route for returning loan status data for the US
+@app.route("/USstatus")
+def usloanStatus():
+    """Return the loan status counts for the US"""
+
+    # query US loan status
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                loan_status,
+                COUNT(loan_status) AS status_count
+                FROM loandata
+                GROUP BY loan_status''')
+    results = cur.fetchall() 
+
+    # empty list to append data to
+    usstatus = []
+    uscounts = []
+
+    # loop to append relevant data
+    for result in results:
+        usstatus.append(result["loan_status"])
+        uscounts.append(result["status_count"])
+
+    usloan_counts = {
+        "loan_status": usstatus,
+        "loan_counts": uscounts
+    }
+
+    return jsonify(usloan_counts)
+
+# route for returning loan grade data for the US
+@app.route("/USgrades")
+def usloanGrades():
+    """Return the loan grade counts for the US"""
+
+    # query US loan grades
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                grade,
+                COUNT(grade) AS grade_count
+                FROM loandata
+                GROUP BY grade''')
+    results = cur.fetchall() 
+
+    # empty list to append data to
+    usgrades = []
+    usgrade_counts = []
+
+    # loop to append relevant data
+    for result in results:
+        usgrades.append(result["grade"])
+        usgrade_counts.append(result["grade_count"])
+
+    usstate_grades = {
+        "grades": usgrades,
+        "grade_counts": usgrade_counts
+    }
+
+    return jsonify(usstate_grades)
+
+# route for returning loan year data the US
+@app.route("/USyears")
+def usloanYears():
+    """Return the loan counts per year for the US"""
+
+    # query US loan years
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                issue_y,
+                COUNT(issue_y) AS year_count
+                FROM loandata
+                GROUP BY issue_y''')
+    results = cur.fetchall() 
+
+    # empty list to append data to
+    usyears = []
+    usnum_loans = []
+
+    # loop to append relevant data
+    for result in results:
+            usyears.append(result["issue_y"])
+            usnum_loans.append(result["year_count"])
+
+    usloan_years = {
+        "years": usyears,
+        "loan_counts": usnum_loans
+    }
+
+    return jsonify(usloan_years)
+
+# route for returning home owner status for the US
+@app.route("/UShome")
+def ushomeOwner():
+    """Return the home owner status for the US"""
+
+    # query US home ownership
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                home_ownership,
+                COUNT(home_ownership) AS owner_count
+                FROM loandata
+                GROUP BY home_ownership''')
+    results = cur.fetchall() 
+
+    # empty list to append data to
+    usowner_status = []
+    usnum_owners = []
+
+    # loop to append relevant data
+    for result in results:
+        usowner_status.append(result["home_ownership"])
+        usnum_owners.append(result["owner_count"])
+
+    usloan_owners = {
+        "owner_status": usowner_status,
+        "owner_counts": usnum_owners
+    }
+
+    return jsonify(usloan_owners)
+
+# route for returning Top US States
+@app.route("/topstates")
+def usTop():
+    """Return the Top 10 US States - loan count"""
+
+    # query State loan counts
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT addr_state,
+                COUNT(loan_amnt) AS loan_count
+                FROM loandata
+                GROUP BY addr_state
+                ORDER BY loan_count DESC
+                LIMIT 10''')
+    results = cur.fetchall() 
+
+    # empty list to append data to
+    usstates = []
+    usstate_count = []
+
+    # loop to append relevant data
+    for result in results:
+            usstates.append(result["addr_state"])
+            usstate_count.append(result["loan_count"])
+
+    uscounts = {
+        "states": usstates,
+        "loan_counts": usstate_count
+    }
+
+    return jsonify(uscounts)
 
 if __name__ == "__main__":
     app.run(debug=True)
